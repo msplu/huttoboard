@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Connexion · Huttoboard{% endblock %}
+
+{# Page de connexion : pas de navbar ni de conteneur standard. #}
+{% block layout %}
+    {% include 'partials/_flashes.html.twig' %}
+    <div class="auth-wrap">
+        <div class="auth-card card">
+            <div class="card-body">
+                <div class="brand-lg">
+                    <span class="logo">🗂️</span>
+                    <h1>Huttoboard</h1>
+                    <p>Connectez-vous pour accéder à vos tableaux</p>
+                </div>
+
+                {% if error %}
+                    <div class="alert-error">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                {% endif %}
+
+                <form method="post">
+                    <div class="form-row">
+                        <label for="inputEmail">Adresse e-mail</label>
+                        <input type="email" value="{{ last_username }}" name="_username" id="inputEmail"
+                               autocomplete="email" required autofocus>
+                    </div>
+                    <div class="form-row">
+                        <label for="inputPassword">Mot de passe</label>
+                        <input type="password" name="_password" id="inputPassword"
+                               autocomplete="current-password" required>
+                    </div>
+
+                    <input type="hidden" name="_csrf_token" data-controller="csrf-protection"
+                           value="{{ csrf_token('authenticate') }}">
+
+                    <label style="display:flex;align-items:center;gap:.4rem;font-size:.88rem;color:var(--muted);margin-bottom:1rem">
+                        <input type="checkbox" name="_remember_me" checked> Se souvenir de moi
+                    </label>
+
+                    <button class="btn btn-primary btn-block" type="submit">Se connecter</button>
+                </form>
+
+                <div class="hint-box">
+                    <strong>Comptes de démonstration</strong><br>
+                    Admin : <code>admin@huttopia.com</code> / <code>admin</code><br>
+                    Utilisateur : <code>marie@huttopia.com</code> / <code>marie</code>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

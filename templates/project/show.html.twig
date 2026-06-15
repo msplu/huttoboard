@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ project.name }} · Huttoboard{% endblock %}
+
+{% block container_class %}board-container{% endblock %}
+
+{% block body %}
+    <div class="page-head">
+        <div>
+            <div class="breadcrumb"><a href="{{ path('app_project_index') }}">Projets</a></div>
+            <h1><span class="code-chip">{{ project.code }}</span> {{ project.name }}</h1>
+            {% if project.description %}<p class="subtitle">{{ project.description }}</p>{% endif %}
+        </div>
+        <span class="spacer"></span>
+        {% if is_granted('ROLE_ADMIN') %}
+            <a href="{{ path('app_column_index', {id: project.id}) }}" class="btn">⚙️ Gérer les colonnes</a>
+            <a href="{{ path('app_project_edit', {id: project.id}) }}" class="btn">✏️ Modifier</a>
+        {% endif %}
+    </div>
+
+    {% if project.columns is empty %}
+        <div class="card"><div class="empty-state">
+            <div class="icon">📋</div>
+            <p>Ce tableau n'a pas encore de colonnes.</p>
+            {% if is_granted('ROLE_ADMIN') %}
+                <a href="{{ path('app_column_index', {id: project.id}) }}" class="btn btn-primary">Ajouter des colonnes</a>
+            {% endif %}
+        </div></div>
+    {% else %}
+        <div class="board"
+             data-controller="board"
+             data-board-move-url-value="{{ path('app_board_move') }}"
+             data-board-csrf-value="{{ csrf_token('board_move') }}">
+            {% for column in project.columns %}
+                <section class="column" style="--col-color: {{ column.color }}">
+                    <header class="column-head">
+                        <span class="dot"></span>
+                        <h3>{{ column.name }}</h3>
+                        <span class="count {{ column.overWipLimit ? 'over' }}">
+                            {{ column.tickets|length }}{% if column.wipLimit %} / {{ column.wipLimit }}{% endif %}
+                        </span>
+                        <span class="spacer"></span>
+                        <a href="{{ path('app_ticket_new', {id: project.id, column: column.id}) }}"
+                           class="btn btn-ghost btn-sm" title="Ajouter un ticket">＋</a>
+                    </header>
+                    <div class="column-body"
+                         data-board-target="column"
+                         data-column-id="{{ column.id }}">
+                        {% for ticket in column.tickets %}
+                            {% include 'ticket/_card.html.twig' %}
+                        {% endfor %}
+                    </div>
+                    <footer class="column-foot">
+                        <a href="{{ path('app_ticket_new', {id: project.id, column: column.id}) }}"
+                           class="btn btn-ghost btn-sm btn-block">＋ Ajouter un ticket</a>
+                    </footer>
+                </section>
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endblock %}

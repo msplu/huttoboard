@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier {{ ticket.reference }} · Huttoboard{% endblock %}
+
+{% block body %}
+    <div class="breadcrumb">
+        <a href="{{ path('app_project_index') }}">Projets</a> /
+        <a href="{{ path('app_project_show', {id: project.id}) }}">{{ project.name }}</a> /
+        <a href="{{ path('app_ticket_show', {id: ticket.id}) }}">{{ ticket.reference }}</a> / Modifier
+    </div>
+    <div class="page-head"><h1>Modifier le ticket</h1></div>
+
+    <div class="card form-card"><div class="card-body">
+        {% include 'ticket/_form.html.twig' with {
+            submit_label: 'Enregistrer',
+            cancel_path: path('app_ticket_show', {id: ticket.id})
+        } %}
+    </div></div>
+{% endblock %}

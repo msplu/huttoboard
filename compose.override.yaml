@@ -1,0 +1,22 @@
+# Développement : surcharge la configuration de production
+services:
+  php:
+    build:
+      context: .
+      target: frankenphp_dev
+    volumes:
+      - ./:/app
+      - ./frankenphp/Caddyfile:/etc/caddy/Caddyfile:ro
+      - ./frankenphp/worker.dev.Caddyfile:/etc/caddy/worker.Caddyfile:ro
+    environment:
+      # See https://xdebug.org/docs/all_settings#mode
+      XDEBUG_MODE: "${XDEBUG_MODE:-off}"
+      # Affiche les requêtes/erreurs Caddy dans la sortie standard
+      CADDY_GLOBAL_OPTIONS: debug
+    extra_hosts:
+      - host.docker.internal:host-gateway
+    tty: true
+
+  database:
+    ports:
+      - "5432:5432"

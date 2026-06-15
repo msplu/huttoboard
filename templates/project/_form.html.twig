@@ -1,0 +1,22 @@
+{{ form_start(form) }}
+    <div class="form-row">
+        {{ form_label(form.name) }}
+        {{ form_widget(form.name) }}
+        {{ form_errors(form.name) }}
+    </div>
+    <div class="form-row">
+        {{ form_label(form.code) }}
+        {{ form_widget(form.code) }}
+        {% if form.code.vars.help %}<div class="help">{{ form.code.vars.help }}</div>{% endif %}
+        {{ form_errors(form.code) }}
+    </div>
+    <div class="form-row">
+        {{ form_label(form.description) }}
+        {{ form_widget(form.description) }}
+        {{ form_errors(form.description) }}
+    </div>
+    <div class="form-actions">
+        <button type="submit" class="btn btn-primary">{{ submit_label|default('Enregistrer') }}</button>
+        <a href="{{ cancel_path }}" class="btn">Annuler</a>
+    </div>
+{{ form_end(form) }}

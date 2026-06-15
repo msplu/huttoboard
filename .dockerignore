@@ -1,0 +1,16 @@
+**/*.log
+**/*.md
+**/.git
+**/.gitignore
+**/.dockerignore
+**/compose.*.yaml
+**/compose.*.yml
+**/compose.yaml
+**/compose.yml
+**/Dockerfile
+.editorconfig
+.env.*.local
+.env.local
+.env.local.php
+var/
+vendor/

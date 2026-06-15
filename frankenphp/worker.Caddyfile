@@ -1,0 +1,12 @@
+# Configuration du mode worker FrankenPHP pour la production.
+# Le script worker est chargé une fois puis réutilisé entre les requêtes
+# (runtime/frankenphp-symfony), ce qui élimine le bootstrap du framework
+# à chaque requête.
+worker {
+	file ./public/index.php
+	# Active le FrankenPhpWorkerRunner natif de symfony/runtime (Symfony 8.1+)
+	env FRANKENPHP_WORKER 1
+	# Nombre de workers : par défaut 2 x nombre de cœurs CPU disponibles.
+	# Décommenter pour fixer une valeur :
+	# num 8
+}

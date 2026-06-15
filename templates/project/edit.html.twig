@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier {{ project.name }} · Huttoboard{% endblock %}
+
+{% block body %}
+    <div class="breadcrumb">
+        <a href="{{ path('app_project_index') }}">Projets</a> /
+        <a href="{{ path('app_project_show', {id: project.id}) }}">{{ project.name }}</a> / Modifier
+    </div>
+    <div class="page-head"><h1>Modifier le projet</h1></div>
+
+    <div class="card form-card"><div class="card-body">
+        {% include 'project/_form.html.twig' with {
+            submit_label: 'Enregistrer',
+            cancel_path: path('app_project_show', {id: project.id})
+        } %}
+    </div></div>
+
+    <div class="card form-card" style="margin-top:1.5rem;border-color:#fecaca">
+        <div class="card-body">
+            <h3 style="margin-top:0">Zone de danger</h3>
+            <p class="subtitle">La suppression du projet efface définitivement ses colonnes et ses tickets.</p>
+            <form method="post" action="{{ path('app_project_delete', {id: project.id}) }}"
+                  onsubmit="return confirm('Supprimer définitivement le projet « {{ project.name|e('js') }} » ?');">
+                <input type="hidden" name="_token" value="{{ csrf_token('delete_project_' ~ project.id) }}">
+                <button type="submit" class="btn btn-danger">Supprimer ce projet</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}

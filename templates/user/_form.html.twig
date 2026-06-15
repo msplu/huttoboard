@@ -1,0 +1,27 @@
+{{ form_start(form) }}
+    <div class="form-row">
+        {{ form_label(form.fullName) }}
+        {{ form_widget(form.fullName) }}
+        {{ form_errors(form.fullName) }}
+    </div>
+    <div class="form-row">
+        {{ form_label(form.email) }}
+        {{ form_widget(form.email) }}
+        {{ form_errors(form.email) }}
+    </div>
+    <div class="form-row">
+        {{ form_label(form.role) }}
+        {{ form_widget(form.role) }}
+        {{ form_errors(form.role) }}
+    </div>
+    <div class="form-row">
+        {{ form_label(form.plainPassword) }}
+        {{ form_widget(form.plainPassword) }}
+        {% if form.plainPassword.vars.help %}<div class="help">{{ form.plainPassword.vars.help }}</div>{% endif %}
+        {{ form_errors(form.plainPassword) }}
+    </div>
+    <div class="form-actions">
+        <button type="submit" class="btn btn-primary">{{ submit_label|default('Enregistrer') }}</button>
+        <a href="{{ path('app_user_index') }}" class="btn">Annuler</a>
+    </div>
+{{ form_end(form) }}

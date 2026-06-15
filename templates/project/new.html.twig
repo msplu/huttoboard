@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouveau projet · Huttoboard{% endblock %}
+
+{% block body %}
+    <div class="breadcrumb"><a href="{{ path('app_project_index') }}">Projets</a> / Nouveau</div>
+    <div class="page-head"><h1>Nouveau projet</h1></div>
+
+    <div class="card form-card"><div class="card-body">
+        <p class="subtitle" style="margin-top:0">Trois colonnes (À faire, En cours, Terminé) seront créées automatiquement.</p>
+        {% include 'project/_form.html.twig' with {
+            submit_label: 'Créer le projet',
+            cancel_path: path('app_project_index')
+        } %}
+    </div></div>
+{% endblock %}

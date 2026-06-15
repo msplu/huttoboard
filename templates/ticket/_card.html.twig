@@ -1,0 +1,16 @@
+<a href="{{ path('app_ticket_show', {id: ticket.id}) }}"
+   class="ticket"
+   data-ticket-id="{{ ticket.id }}"
+   style="--prio-color: {{ ticket.priority.color }}">
+    <div class="title">{{ ticket.title }}</div>
+    <div class="row">
+        <span class="ref">{{ ticket.reference }}</span>
+        <span class="badge" style="--prio-color: {{ ticket.priority.color }}">{{ ticket.priority.label }}</span>
+        <span class="spacer"></span>
+        {% if ticket.assignee %}
+            <span class="avatar" title="{{ ticket.assignee.fullName }}">{{ ticket.assignee.initials }}</span>
+        {% else %}
+            <span class="avatar empty" title="Non assigné">·</span>
+        {% endif %}
+    </div>
+</a>

@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouveau ticket · {{ project.name }}{% endblock %}
+
+{% block body %}
+    <div class="breadcrumb">
+        <a href="{{ path('app_project_index') }}">Projets</a> /
+        <a href="{{ path('app_project_show', {id: project.id}) }}">{{ project.name }}</a> / Nouveau ticket
+    </div>
+    <div class="page-head"><h1>Nouveau ticket</h1></div>
+
+    <div class="card form-card"><div class="card-body">
+        {% include 'ticket/_form.html.twig' with {
+            submit_label: 'Créer le ticket',
+            cancel_path: path('app_project_show', {id: project.id})
+        } %}
+    </div></div>
+{% endblock %}

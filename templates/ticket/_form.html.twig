@@ -1,0 +1,33 @@
+{{ form_start(form) }}
+    <div class="form-row">
+        {{ form_label(form.title) }}
+        {{ form_widget(form.title) }}
+        {{ form_errors(form.title) }}
+    </div>
+    <div class="form-row">
+        {{ form_label(form.description) }}
+        {{ form_widget(form.description) }}
+        {{ form_errors(form.description) }}
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+        <div class="form-row">
+            {{ form_label(form.column) }}
+            {{ form_widget(form.column) }}
+            {{ form_errors(form.column) }}
+        </div>
+        <div class="form-row">
+            {{ form_label(form.priority) }}
+            {{ form_widget(form.priority) }}
+            {{ form_errors(form.priority) }}
+        </div>
+    </div>
+    <div class="form-row">
+        {{ form_label(form.assignee) }}
+        {{ form_widget(form.assignee) }}
+        {{ form_errors(form.assignee) }}
+    </div>
+    <div class="form-actions">
+        <button type="submit" class="btn btn-primary">{{ submit_label|default('Enregistrer') }}</button>
+        <a href="{{ cancel_path }}" class="btn">Annuler</a>
+    </div>
+{{ form_end(form) }}

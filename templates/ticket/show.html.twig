@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ ticket.reference }} · {{ ticket.title }}{% endblock %}
+
+{% block body %}
+    {% set project = ticket.project %}
+    <div class="breadcrumb">
+        <a href="{{ path('app_project_index') }}">Projets</a> /
+        <a href="{{ path('app_project_show', {id: project.id}) }}">{{ project.name }}</a> /
+        {{ ticket.reference }}
+    </div>
+
+    <div class="page-head">
+        <div>
+            <span class="ref">{{ ticket.reference }}</span>
+            <h1>{{ ticket.title }}</h1>
+        </div>
+        <span class="spacer"></span>
+        <a href="{{ path('app_ticket_edit', {id: ticket.id}) }}" class="btn">✏️ Modifier</a>
+        <form method="post" class="inline-form" action="{{ path('app_ticket_delete', {id: ticket.id}) }}"
+              onsubmit="return confirm('Supprimer ce ticket ?');">
+            <input type="hidden" name="_token" value="{{ csrf_token('delete_ticket_' ~ ticket.id) }}">
+            <button type="submit" class="btn btn-danger">🗑 Supprimer</button>
+        </form>
+    </div>
+
+    <div class="grid" style="grid-template-columns: 2fr 1fr; align-items:start">
+        <div class="card"><div class="card-body">
+            <h3 style="margin-top:0">Description</h3>
+            {% if ticket.description %}
+                <p style="white-space:pre-wrap">{{ ticket.description }}</p>
+            {% else %}
+                <p class="subtitle">Aucune description.</p>
+            {% endif %}
+        </div></div>
+
+        <div class="card"><div class="card-body">
+            <table style="width:100%">
+                <tr><td class="subtitle" style="padding:.35rem 0">Statut</td>
+                    <td style="text-align:right"><span class="swatch" style="background:{{ ticket.column.color }}"></span>{{ ticket.column.name }}</td></tr>
+                <tr><td class="subtitle" style="padding:.35rem 0">Priorité</td>
+                    <td style="text-align:right"><span class="badge" style="--prio-color:{{ ticket.priority.color }}">{{ ticket.priority.label }}</span></td></tr>
+                <tr><td class="subtitle" style="padding:.35rem 0">Assigné à</td>
+                    <td style="text-align:right">{{ ticket.assignee ? ticket.assignee.fullName : '—' }}</td></tr>
+                <tr><td class="subtitle" style="padding:.35rem 0">Rapporteur</td>
+                    <td style="text-align:right">{{ ticket.reporter ? ticket.reporter.fullName : '—' }}</td></tr>
+                <tr><td class="subtitle" style="padding:.35rem 0">Créé le</td>
+                    <td style="text-align:right">{{ ticket.createdAt|date('d/m/Y H:i') }}</td></tr>
+                <tr><td class="subtitle" style="padding:.35rem 0">Mis à jour</td>
+                    <td style="text-align:right">{{ ticket.updatedAt|date('d/m/Y H:i') }}</td></tr>
+            </table>
+        </div></div>
+    </div>
+{% endblock %}

@@ -1,0 +1,10 @@
+{% set flashes = app.flashes(['success', 'error']) %}
+{% if flashes is not empty %}
+    <div class="flashes" data-controller="flash">
+        {% for type, messages in flashes %}
+            {% for message in messages %}
+                <div class="flash {{ type }}">{{ message }}</div>
+            {% endfor %}
+        {% endfor %}
+    </div>
+{% endif %}

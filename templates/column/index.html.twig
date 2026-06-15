@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Colonnes · {{ project.name }}{% endblock %}
+
+{% block body %}
+    <div class="breadcrumb">
+        <a href="{{ path('app_project_index') }}">Projets</a> /
+        <a href="{{ path('app_project_show', {id: project.id}) }}">{{ project.name }}</a> / Colonnes
+    </div>
+    <div class="page-head">
+        <h1>Gérer les colonnes</h1>
+        <span class="spacer"></span>
+        <a href="{{ path('app_project_show', {id: project.id}) }}" class="btn">← Retour au tableau</a>
+    </div>
+
+    <div class="grid" style="grid-template-columns: 2fr 1fr; align-items:start">
+        <div class="card"><div class="card-body">
+            {% if columns is empty %}
+                <p class="subtitle">Aucune colonne. Ajoutez-en une à droite.</p>
+            {% else %}
+                <table class="table">
+                    <thead><tr><th></th><th>Nom</th><th>WIP</th><th>Ordre</th><th></th></tr></thead>
+                    <tbody>
+                    {% for column in columns %}
+                        <tr>
+                            <td><span class="swatch" style="background:{{ column.color }}"></span></td>
+                            <td><strong>{{ column.name }}</strong></td>
+                            <td>{{ column.wipLimit ?? '∞' }}</td>
+                            <td style="white-space:nowrap">
+                                <form method="post" class="inline-form" action="{{ path('app_column_move', {id: column.id, direction: 'up'}) }}">
+                                    <input type="hidden" name="_token" value="{{ csrf_token('move_column_' ~ column.id) }}">
+                                    <button class="btn btn-ghost btn-sm" {{ loop.first ? 'disabled' }} title="Monter">▲</button>
+                                </form>
+                                <form method="post" class="inline-form" action="{{ path('app_column_move', {id: column.id, direction: 'down'}) }}">
+                                    <input type="hidden" name="_token" value="{{ csrf_token('move_column_' ~ column.id) }}">
+                                    <button class="btn btn-ghost btn-sm" {{ loop.last ? 'disabled' }} title="Descendre">▼</button>
+                                </form>
+                            </td>
+                            <td style="text-align:right;white-space:nowrap">
+                                <a href="{{ path('app_column_edit', {id: column.id}) }}" class="btn btn-sm">Modifier</a>
+                                <form method="post" class="inline-form" action="{{ path('app_column_delete', {id: column.id}) }}"
+                                      onsubmit="return confirm('Supprimer la colonne « {{ column.name|e('js') }} » et ses {{ column.tickets|length }} ticket(s) ?');">
+                                    <input type="hidden" name="_token" value="{{ csrf_token('delete_column_' ~ column.id) }}">
+                                    <button class="btn btn-danger btn-sm">Supprimer</button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            {% endif %}
+        </div></div>
+
+        <div class="card"><div class="card-body">
+            <h3 style="margin-top:0">Ajouter une colonne</h3>
+            {% include 'column/_form.html.twig' with {submit_label: 'Ajouter'} %}
+        </div></div>
+    </div>
+{% endblock %}

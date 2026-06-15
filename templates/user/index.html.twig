@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Utilisateurs · Huttoboard{% endblock %}
+
+{% block body %}
+    <div class="page-head">
+        <div>
+            <h1>Utilisateurs</h1>
+            <p class="subtitle">{{ users|length }} compte(s)</p>
+        </div>
+        <span class="spacer"></span>
+        <a href="{{ path('app_user_new') }}" class="btn btn-primary">＋ Nouvel utilisateur</a>
+    </div>
+
+    <table class="table">
+        <thead><tr><th>Nom</th><th>E-mail</th><th>Rôle</th><th>Créé le</th><th></th></tr></thead>
+        <tbody>
+        {% for user in users %}
+            <tr>
+                <td><span class="avatar" style="display:inline-grid">{{ user.initials }}</span> {{ user.fullName }}</td>
+                <td>{{ user.email }}</td>
+                <td>
+                    {% if user.admin %}<span class="tag admin">Administrateur</span>
+                    {% else %}<span class="tag user">Utilisateur</span>{% endif %}
+                </td>
+                <td>{{ user.createdAt|date('d/m/Y') }}</td>
+                <td style="text-align:right;white-space:nowrap">
+                    <a href="{{ path('app_user_edit', {id: user.id}) }}" class="btn btn-sm">Modifier</a>
+                    {% if user != app.user %}
+                        <form method="post" class="inline-form" action="{{ path('app_user_delete', {id: user.id}) }}"
+                              onsubmit="return confirm('Supprimer « {{ user.fullName|e('js') }} » ?');">
+                            <input type="hidden" name="_token" value="{{ csrf_token('delete_user_' ~ user.id) }}">
+                            <button class="btn btn-danger btn-sm">Supprimer</button>
+                        </form>
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

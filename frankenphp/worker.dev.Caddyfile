@@ -1,0 +1,14 @@
+# Configuration du mode worker FrankenPHP pour le développement.
+# Le `watch` redémarre automatiquement les workers dès qu'un fichier source
+# change : on profite du gain de performance du mode worker tout en gardant
+# le confort du rechargement à chaud. On ne surveille volontairement PAS le
+# dossier var/ (cache/log) pour éviter une boucle de redémarrage.
+worker {
+	file ./public/index.php
+	# Active le FrankenPhpWorkerRunner natif de symfony/runtime (Symfony 8.1+)
+	env FRANKENPHP_WORKER 1
+	watch ./src
+	watch ./config
+	watch ./templates
+	watch ./translations
+}

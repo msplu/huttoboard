@@ -1,0 +1,22 @@
+{{ form_start(form) }}
+    <div class="form-row">
+        {{ form_label(form.name) }}
+        {{ form_widget(form.name) }}
+        {{ form_errors(form.name) }}
+    </div>
+    <div class="form-row">
+        {{ form_label(form.color) }}
+        {{ form_widget(form.color) }}
+        {{ form_errors(form.color) }}
+    </div>
+    <div class="form-row">
+        {{ form_label(form.wipLimit) }}
+        {{ form_widget(form.wipLimit) }}
+        {% if form.wipLimit.vars.help %}<div class="help">{{ form.wipLimit.vars.help }}</div>{% endif %}
+        {{ form_errors(form.wipLimit) }}
+    </div>
+    <div class="form-actions">
+        <button type="submit" class="btn btn-primary">{{ submit_label|default('Enregistrer') }}</button>
+        {% if cancel_path is defined %}<a href="{{ cancel_path }}" class="btn">Annuler</a>{% endif %}
+    </div>
+{{ form_end(form) }}

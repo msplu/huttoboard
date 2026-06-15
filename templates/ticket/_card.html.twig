@@ -1,5 +1,6 @@
 <a href="{{ path('app_ticket_show', {id: ticket.id}) }}"
    class="ticket"
+   draggable="false"
    data-ticket-id="{{ ticket.id }}"
    style="--prio-color: {{ ticket.priority.color }}">
     <div class="title">{{ ticket.title }}</div>

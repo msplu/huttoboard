@@ -16,6 +16,11 @@ export default class extends Controller {
     };
 
     connect() {
+        // Neutralise le drag natif HTML5 (les cartes sont des liens <a>), qui sinon
+        // entre en conflit avec le glisser-déposer de SortableJS au premier essai.
+        this.preventNativeDrag = (event) => event.preventDefault();
+        this.element.addEventListener('dragstart', this.preventNativeDrag);
+
         this.sortables = this.columnTargets.map((column) =>
             Sortable.create(column, {
                 group: 'tickets',
@@ -31,6 +36,7 @@ export default class extends Controller {
     }
 
     disconnect() {
+        this.element.removeEventListener('dragstart', this.preventNativeDrag);
         this.sortables?.forEach((sortable) => sortable.destroy());
         this.sortables = [];
     }

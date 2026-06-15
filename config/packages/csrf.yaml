@@ -1,11 +1,6 @@
-# Enable stateless CSRF protection for forms and logins/logouts
+# Protection CSRF stateful (basée sur la session).
+# Choisie plutôt que la variante "stateless" car elle ne dépend pas du
+# JavaScript pour fonctionner (formulaires, login) et reste testable côté
+# fonctionnel sans navigateur.
 framework:
-    form:
-        csrf_protection:
-            token_id: submit
-
-    csrf_protection:
-        stateless_token_ids:
-            - submit
-            - authenticate
-            - logout
+    csrf_protection: true

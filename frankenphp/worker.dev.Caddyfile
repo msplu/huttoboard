@@ -11,4 +11,5 @@ worker {
 	watch ./config
 	watch ./templates
 	watch ./translations
+	watch ./assets
 }

@@ -109,7 +109,34 @@ frankenphp/
 - Hiérarchie de rôles : `ROLE_ADMIN` hérite de `ROLE_USER`.
 - Actions d'administration protégées par l'attribut `#[IsGranted('ROLE_ADMIN')]` et les règles
   `access_control` (`^/admin`).
-- Protection CSRF *stateless* (double-submit cookie) sur les formulaires et le login.
+- Protection CSRF *stateful* (basée session) sur les formulaires, le login et l'API du tableau.
+
+## Tests
+
+Suite de tests **fonctionnels** (end-to-end au niveau HTTP, via le client Symfony) couvrant
+l'authentification, le contrôle d'accès par rôle, le CRUD projets/colonnes/tickets, l'API de
+déplacement kanban et la gestion des utilisateurs. Chaque test est isolé dans une transaction
+annulée à la fin (DAMA DoctrineTestBundle).
+
+```bash
+# Préparer la base de test (une seule fois, ou après un changement de schéma/fixtures)
+docker compose exec php php bin/console doctrine:database:create --env=test --if-not-exists
+docker compose exec php php bin/console doctrine:migrations:migrate --env=test --no-interaction
+docker compose exec php php bin/console doctrine:fixtures:load --env=test --no-interaction
+
+# Lancer la suite
+docker compose exec php php bin/phpunit
+```
+
+Les tests se trouvent dans `tests/Functional/` :
+
+| Fichier                     | Couverture                                                       |
+|-----------------------------|------------------------------------------------------------------|
+| `SecurityControllerTest`    | login OK/KO, logout, redirection des anonymes                    |
+| `ProjectControllerTest`     | CRUD projet, colonnes par défaut, unicité du code, accès admin   |
+| `ColumnControllerTest`      | ajout / réordonnancement / suppression de colonnes (admin)       |
+| `TicketControllerTest`      | création de ticket, **API `/board/move`** (ordre, CSRF, projet)  |
+| `UserControllerTest`        | création de compte + login réel, anti-auto-suppression, accès    |
 
 ## Production
 

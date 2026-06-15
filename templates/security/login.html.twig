@@ -30,8 +30,7 @@
                                autocomplete="current-password" required>
                     </div>
 
-                    <input type="hidden" name="_csrf_token" data-controller="csrf-protection"
-                           value="{{ csrf_token('authenticate') }}">
+                    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
                     <label style="display:flex;align-items:center;gap:.4rem;font-size:.88rem;color:var(--muted);margin-bottom:1rem">
                         <input type="checkbox" name="_remember_me" checked> Se souvenir de moi
